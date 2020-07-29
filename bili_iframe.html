@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class = 'controlBar'>
+            <button class = 'switchVideo' onclick="RandomVideo()">切换视频</button>
+        </div>
+        <div class = 'bilivideo'>
+            
+             <iframe scrolling="no" border="0" frameborder="no" framespacing="0" width="500px" height="400px" 
+             allowfullscreen="true" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
+        </div>
+
+        <script type = "text/javascript">
+            // 由于 CORS 跨域问题无法动态调用bilibili api
+            // 但内嵌 iframe 可以跨域 
+            // 故用列表随机 Bv 替代 api 返回的 Bv 然后直接修改 iframe 的 src
+
+            // 可以随意添加 bv  ↓
+            var bvidList = [
+                "BV1GV411C7hf",
+                "BV1PJ411Q7ib",
+                "BV1zx411Y7xV",
+                "BV1ri4y1b7fS",
+                "BV1w7411s7sj",
+                "BV147411b7B3",
+                "BV1aW411c7kc",
+                "BV1nz411i7Ea",
+                "BV13A411t7ux",
+                "BV1954y1R76Y",
+                "BV1XE411W7m4",
+                "BV1nJ411h7ax",
+                "BV1tf4y1m7gb",
+                "BV1XE411L7uh",
+                "BV1X7411d7d4",
+                "BV14741167k1",
+                "BV1Ua4y1v7e8",
+                "BV14K4y1k7pt",
+                "BV1Hp4y1y7FG",
+                "BV1RZ4y1W7AX"
+            ]
+
+
+            // 初始展示的视频 bv <———— 在这里修改
+            var bvid = 'BV1vW411a766';
+
+
+            const baseSrc = '//player.bilibili.com/player.html?';
+            const apiSrc = 'http://api.bilibili.com/x/web-interface/archive/related?bvid=';
+            const changeBtn = document.querySelector('.switchVideo');
+            var biliFrame = document.querySelector('iframe');
+
+            // parameter 参数说明
+            // autoplay 自动播放
+            // danmaku 是否开启弹幕 1: 开启(默认), 0: 关闭
+            // high_quality 是否高清 1: 高清 0: 低清
+            // sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts 不允许跳转网页
+            // allowfullscreen="true" 默认不可全屏 加上可以全屏
+            // 注意：iframe 应该调整合适的大小 详见：https://www.yuheng.tech/2019/06/%E3%80%90bilibili-api%E3%80%91%E5%A4%96%E9%93%BE%E8%B0%83%E6%95%B4%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F/
+
+            biliFrame.setAttribute('src', baseSrc + 'bvid=' + bvid + '&high_quality=1' + '&autoplay=1' + '&danmaku=0');
+
+            function RandomVideo() {
+
+                bvid =bvidList[Math.floor( (Math.random() * (bvidList.length + 1) ))];
+                biliFrame.setAttribute('src', baseSrc + 'bvid=' + bvid + '&high_quality=1' + '&autoplay=1' + '&danmaku=0');
+                console.log(baseSrc + 'bvid=' + bvid + '&high_quality=1' + '&autoplay=1' + '&danmaku=0');
+
+            }
+
+        </script>
+    </body>
+</html>
